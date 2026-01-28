@@ -3,7 +3,12 @@ package com.flipfit.business;
 import com.flipfit.bean.GymOwner;
 import com.flipfit.bean.GymCenter;
 import com.flipfit.bean.Role;
+import com.flipfit.bean.User;
 import com.flipfit.constants.GymStatus;
+import com.flipfit.dao.GymOwnerDaoImpl;
+import com.flipfit.dao.GymOwnerDaoInterface;
+import com.flipfit.dao.UserDaoImpl;
+import com.flipfit.dao.UserDaoInterface;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,37 +16,50 @@ import java.util.UUID;
 
 public class GymOwnerService implements GymOwnerInterface {
 
+    GymOwnerDaoInterface gymOwnerDao = new GymOwnerDaoImpl();
+    UserDaoInterface userDao = new UserDaoImpl();
+
     @Override
-    public void registerOwner(String name, String email , String phoneNumber, String password) {
-        // Logic: Save owner details via DAO
+    public void registerOwner(String name, String email , String phoneNumber, String password, String panNumber, String aadharNumber) {
+        try {
+            String userId = UUID.randomUUID().toString();
+            String ownerId = UUID.randomUUID().toString();
 
-        GymOwner owner=new GymOwner();
-        owner.setUserId(UUID.randomUUID().toString());
-        owner.setOwnerId(UUID.randomUUID().toString());
-        owner.setName(name);
-        owner.setEmail(email);
-        owner.setPhoneNumber(phoneNumber);
-        //create hash of password and save hash
-        owner.setPasswordHash(password);
+            Role role = new Role();
+            role.setRoleName("GymOwner");
 
+            GymOwner owner = new GymOwner();
+            owner.setUserId(userId);
+            owner.setOwnerId(ownerId);
+            owner.setName(name);
+            owner.setEmail(email);
+            owner.setPhoneNumber(phoneNumber);
+            owner.setPasswordHash(password);
+            owner.setRole(role);
+            // Setting new details
+            owner.setPanNumber(panNumber);
+            owner.setAadharNumber(aadharNumber);
 
-        Role role =new Role();
-        //set role id and role des and role name
-        role.setRoleName("GymOwner");
-        owner.setRole(role);
+            User user = new User();
+            user.setUserId(userId);
+            user.setName(name);
+            user.setEmail(email);
+            user.setPhoneNumber(phoneNumber);
+            user.setPasswordHash(password);
+            user.setRole(role);
 
+            userDao.addUser(user);
+            gymOwnerDao.addGymOwner(owner);
 
-
-        // send the request to admin => pending
-
-        System.out.println("Request for registration sent successfully with ownerId---> " + owner.getOwnerId());
+            System.out.println("Request for registration sent successfully with ownerId---> " + owner.getOwnerId());
+        } catch (Exception e) {
+            System.out.println("Registration failed: " + e.getMessage());
+        }
     }
 
     @Override
     public void requestGymAddition(GymCenter gym) {
-        // Logic: Set status to PENDING
         gym.setGymStatus(GymStatus.PENDING);
-        // DAO: Save gym request
         System.out.println("Gym addition request raised for: " + gym.getGymName());
     }
 
@@ -52,7 +70,6 @@ public class GymOwnerService implements GymOwnerInterface {
 
     @Override
     public List<GymCenter> viewMyGyms(String ownerId) {
-        // DAO: select * where ownerId = ...
         GymCenter tempGym=new GymCenter();
         tempGym.setGymId("123");
         tempGym.setGymLocation("Bangalore");

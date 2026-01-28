@@ -1,11 +1,24 @@
 package com.flipfit.business;
 
 import com.flipfit.bean.User;
+import com.flipfit.exception.InvalidCredentialsException;
 
 public interface UserInterface {
-    // Basic authentication and management
+    /**
+     * Registers a new user in the system.
+     * @param user The user object to register
+     */
     void registerUser(User user);
-    boolean login(String email, String password);
+
+    /**
+     * Validates user credentials and returns the User object if successful.
+     * @param email The user's email
+     * @param password The user's password
+     * @return User object containing role and details
+     * @throws InvalidCredentialsException if validation fails
+     */
+    User login(String email, String password) throws InvalidCredentialsException;
+
     void updatePassword(String userId, String newPassword);
     User getUserDetails(String userId);
 }
