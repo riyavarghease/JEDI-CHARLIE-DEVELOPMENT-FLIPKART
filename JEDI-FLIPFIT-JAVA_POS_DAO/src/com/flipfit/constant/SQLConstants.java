@@ -25,12 +25,12 @@ public class SQLConstants {
 
     // ======================== GYM OWNER QUERIES ========================
     // Updated to include aadharNumber and fixed panCard column name consistency
-    public static final String INSERT_GYM_OWNER = "INSERT INTO GymOwner (ownerId, name, email, phoneNumber, panNumber, aadharNumber, status) VALUES (?, ?, ?, ?, ?, ?, ?)";
-    public static final String SELECT_GYM_OWNER_BY_ID = "SELECT * FROM GymOwner WHERE ownerId = ?";
-    public static final String SELECT_GYM_OWNER_BY_EMAIL = "SELECT * FROM GymOwner WHERE email = ?";
-    public static final String SELECT_ALL_GYM_OWNERS = "SELECT * FROM GymOwner";
-    public static final String UPDATE_GYM_OWNER_STATUS = "UPDATE GymOwner SET status = ? WHERE ownerId = ?";
-    public static final String DELETE_GYM_OWNER = "DELETE FROM GymOwner WHERE ownerId = ?";
+    public static final String INSERT_GYM_OWNER = "INSERT INTO GYM_OWNER (ownerId, name, email, phoneNumber, panNumber, aadharNumber, status) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    public static final String SELECT_GYM_OWNER_BY_ID = "SELECT * FROM GYM_OWNER WHERE ownerId = ?";
+    public static final String SELECT_GYM_OWNER_BY_EMAIL = "SELECT * FROM GYM_OWNER WHERE email = ?";
+    public static final String SELECT_ALL_GYM_OWNERS = "SELECT * FROM GYM_OWNER";
+    public static final String UPDATE_GYM_OWNER_STATUS = "UPDATE GYM_OWNER SET status = ? WHERE ownerId = ?";
+    public static final String DELETE_GYM_OWNER = "DELETE FROM GYM_OWNER WHERE ownerId = ?";
 
     // ... (Remaining constants for GymCenter, Slot, Booking, Payment, Waitlist remain unchanged) ...
     public static final String INSERT_GYM_CENTER = "INSERT INTO GymCenter (gymId, name, location, ownerId, capacity, status) VALUES (?, ?, ?, ?, ?, ?)";

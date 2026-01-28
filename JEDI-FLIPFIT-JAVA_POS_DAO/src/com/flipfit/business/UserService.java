@@ -21,13 +21,16 @@ public class UserService implements UserInterface {
     }
 
     @Override
-    public User login(String email, String password) throws InvalidCredentialsException {
+    public User login(String email, String password,String role) throws InvalidCredentialsException {
         // 1. Retrieve user by email from the database
         User user = userDao.getUserByEmail(email);
 
         // 2. Check if user exists and password matches
         if (user == null || !user.getPasswordHash().equals(password)) {
             throw new InvalidCredentialsException("Invalid email or password.");
+        }
+        if (role == null || !user.getRole().getRoleName().equals(role)) {
+            throw new InvalidCredentialsException("role not found.");
         }
 
         // 3. Return the authenticated user (including Role)

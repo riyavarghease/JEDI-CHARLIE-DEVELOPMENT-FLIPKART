@@ -100,7 +100,7 @@ public class UserDaoImpl implements UserDaoInterface {
         user.setPhoneNumber(rs.getString("phoneNumber"));
 
         Role role = new Role();
-        role.setRoleName(rs.getString("roleName"));
+        role.setRoleName(rs.getString("role"));
         user.setRole(role);
 
         return user;

@@ -98,9 +98,10 @@ public class ApplicationMenu {
             String email = scanner.nextLine();
             System.out.print("Enter Password: ");
             String password = scanner.nextLine();
-
+            System.out.println("Enter Role: ");
+            String role = scanner.nextLine();
             UserInterface userService = new UserService();
-            User user = userService.login(email, password);
+            User user = userService.login(email, password,role);
 
             if (user == null) {
                 System.out.println("Login Failed. User not found.");

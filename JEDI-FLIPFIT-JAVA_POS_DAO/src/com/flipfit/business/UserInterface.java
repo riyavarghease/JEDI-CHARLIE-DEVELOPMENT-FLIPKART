@@ -20,7 +20,7 @@ public interface UserInterface {
      * @return User object containing role and details
      * @throws InvalidCredentialsException if validation fails
      */
-    User login(String email, String password) throws InvalidCredentialsException;
+    User login(String email, String password,String role) throws InvalidCredentialsException;
 
     void updatePassword(String userId, String newPassword);
 
