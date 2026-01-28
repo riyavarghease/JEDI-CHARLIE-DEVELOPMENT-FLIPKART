@@ -62,7 +62,7 @@ public class SQLConstants {
     // ======================== GYM OWNER QUERIES ========================
 
     /** The SQL query to insert a new gym owner record. */
-    public static final String INSERT_GYM_OWNER = "INSERT INTO GYM_OWNER (ownerId, name, email, phoneNumber, panCard, gstNumber, status) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    public static final String INSERT_GYM_OWNER = "INSERT INTO GYM_OWNER (ownerId, accountNumber, panNumber, ownerStatus) VALUES (?, ?, ?, ?)";
 
     /** The SQL query to select gym owner by ID. */
     public static final String SELECT_GYM_OWNER_BY_ID = "SELECT * FROM GYM_OWNER WHERE ownerId = ?";

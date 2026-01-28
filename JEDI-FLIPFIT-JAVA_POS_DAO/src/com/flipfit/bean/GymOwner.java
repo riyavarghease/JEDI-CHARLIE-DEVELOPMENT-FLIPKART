@@ -1,6 +1,5 @@
 package com.flipfit.bean;
 
-import com.flipfit.constants.GymStatus;
 import com.flipfit.constants.OwnerStatus;
 
 public class GymOwner extends User {
@@ -8,7 +7,7 @@ public class GymOwner extends User {
     private String ownerId;
     private String accountNumber;
     private String panNumber;
-    private OwnerStatus ownerStatus;
+    private OwnerStatus ownerStatus = OwnerStatus.PENDING;
 
 
     public String getOwnerId() {

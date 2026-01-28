@@ -11,6 +11,7 @@ import com.flipfit.constant.SQLConstants;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -25,8 +26,21 @@ public class GymOwnerDaoImpl implements GymOwnerDaoInterface {
 
     @Override
     public void addGymOwner(GymOwner owner) {
-        ownerMap.put(owner.getOwnerId(), owner);
-        System.out.println("DAO: Gym Owner registered: " + owner.getOwnerId());
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(SQLConstants.INSERT_GYM_OWNER)) {
+
+            // Mapping GymOwner bean fields to SQL query parameters
+            pstmt.setString(1, owner.getOwnerId());
+            pstmt.setString(2, owner.getPanNumber());
+            pstmt.setString(3, owner.getAccountNumber());
+            pstmt.setString(4, String.valueOf(owner.getOwnerStatus()));
+            pstmt.executeUpdate();
+            System.out.println("DAO: Gym Owner registered in DB with status PENDING: " + owner.getOwnerId());
+
+        } catch (SQLException e) {
+            System.err.println("Error registering gym owner: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     @Override

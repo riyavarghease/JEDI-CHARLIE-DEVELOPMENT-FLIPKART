@@ -5,6 +5,7 @@ import com.flipfit.bean.GymCenter;
 import com.flipfit.bean.Role;
 import com.flipfit.bean.User;
 import com.flipfit.constants.GymStatus;
+import com.flipfit.constants.OwnerStatus;
 import com.flipfit.dao.GymOwnerDaoImpl;
 import com.flipfit.dao.GymOwnerDaoInterface;
 import com.flipfit.dao.UserDaoImpl;
@@ -32,17 +33,11 @@ public class GymOwnerService implements GymOwnerInterface {
             role.setRoleName("GymOwner");
 
             GymOwner owner = new GymOwner();
-            owner.setUserId(userId);
             owner.setOwnerId(ownerId);
-            owner.setName(name);
-            owner.setEmail(email);
-            owner.setPhoneNumber(phoneNumber);
-            owner.setPasswordHash(password);
-            owner.setRole(role);
             // Setting new details
             owner.setPanNumber(panNumber);
             owner.setAccountNumber(accountNumber);
-
+            owner.setOwnerStatus(OwnerStatus.valueOf(owner.getOwnerStatus().toString()));
             User user = new User();
             user.setUserId(userId);
             user.setName(name);
