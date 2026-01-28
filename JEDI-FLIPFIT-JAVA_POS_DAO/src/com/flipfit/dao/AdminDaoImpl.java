@@ -10,20 +10,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * The Class AdminDaoImpl.
- * Implementation of AdminDaoInterface providing database operations for Admin entities.
- *
- * @author FlipFit Development Team
- * @version 1.0
- */
 public class AdminDaoImpl implements AdminDaoInterface {
 
-    /**
-     * Adds the admin to the database.
-     *
-     * @param admin the admin object to be added
-     */
     @Override
     public void addAdmin(Admin admin) {
         try (Connection conn = DBConnection.getConnection();
@@ -33,6 +21,9 @@ public class AdminDaoImpl implements AdminDaoInterface {
             pstmt.setString(2, admin.getName());
             pstmt.setString(3, admin.getEmail());
             pstmt.setString(4, admin.getUserId());
+            // Setting new fields
+            pstmt.setString(5, admin.getAadharNumber());
+            pstmt.setString(6, admin.getPanNumber());
 
             pstmt.executeUpdate();
             System.out.println("DAO: Admin registered successfully in DB with ID: " + admin.getAdminId());
@@ -42,12 +33,6 @@ public class AdminDaoImpl implements AdminDaoInterface {
         }
     }
 
-    /**
-     * Gets the admin by id.
-     *
-     * @param adminId the admin id
-     * @return the admin object if found, null otherwise
-     */
     @Override
     public Admin getAdminById(String adminId) {
         try (Connection conn = DBConnection.getConnection();
@@ -65,12 +50,6 @@ public class AdminDaoImpl implements AdminDaoInterface {
         return null;
     }
 
-    /**
-     * Gets the admin by email.
-     *
-     * @param email the email address
-     * @return the admin object if found, null otherwise
-     */
     @Override
     public Admin getAdminByEmail(String email) {
         try (Connection conn = DBConnection.getConnection();
@@ -88,11 +67,6 @@ public class AdminDaoImpl implements AdminDaoInterface {
         return null;
     }
 
-    /**
-     * Gets all admins from the database.
-     *
-     * @return the list of all admins
-     */
     @Override
     public List<Admin> getAllAdmins() {
         List<Admin> admins = new ArrayList<>();
@@ -109,20 +83,15 @@ public class AdminDaoImpl implements AdminDaoInterface {
         return admins;
     }
 
-    /**
-     * Map result set to admin.
-     * Helper method to convert database result set to Admin bean.
-     *
-     * @param rs the result set from database query
-     * @return the admin object
-     * @throws SQLException the SQL exception
-     */
     private Admin mapResultSetToAdmin(ResultSet rs) throws SQLException {
         Admin admin = new Admin();
         admin.setAdminId(rs.getString("adminId"));
         admin.setName(rs.getString("name"));
         admin.setEmail(rs.getString("email"));
         admin.setUserId(rs.getString("userId"));
+        // Retrieve new fields
+        admin.setAadharNumber(rs.getString("aadharNumber"));
+        admin.setPanNumber(rs.getString("panNumber"));
         return admin;
     }
 }
