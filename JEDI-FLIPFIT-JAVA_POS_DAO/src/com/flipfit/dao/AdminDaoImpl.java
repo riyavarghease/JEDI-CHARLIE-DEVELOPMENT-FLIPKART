@@ -11,21 +11,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * The Class AdminDaoImpl.
- * Implementation of AdminDaoInterface providing database operations for Admin entities.
- *
- * @author FlipFit Development Team
- * @version 1.0
+ * Implementation of Admin database operations.
  */
 public class AdminDaoImpl implements AdminDaoInterface {
 
-    /**
-     * Adds the admin to the database.
-     *
-     * @param admin the admin object to be added
-     */
     @Override
     public void addAdmin(Admin admin) {
+        // Open connection and prepare the SQL insert statement
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(SQLConstants.INSERT_ADMIN)) {
 
@@ -34,22 +26,18 @@ public class AdminDaoImpl implements AdminDaoInterface {
             pstmt.setString(3, admin.getEmail());
             pstmt.setString(4, admin.getUserId());
 
+            // Execute the query to save admin details in MySQL
             pstmt.executeUpdate();
-            System.out.println("DAO: Admin registered successfully in DB with ID: " + admin.getAdminId());
+            System.out.println("Admin saved to database: " + admin.getName());
         } catch (SQLException e) {
-            System.err.println("Error adding admin: " + e.getMessage());
-            e.printStackTrace();
+            // Log database errors for debugging
+            System.err.println("Database Error: " + e.getMessage());
         }
     }
 
-    /**
-     * Gets the admin by id.
-     *
-     * @param adminId the admin id
-     * @return the admin object if found, null otherwise
-     */
     @Override
     public Admin getAdminById(String adminId) {
+        // Search for an admin using their unique ID
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(SQLConstants.SELECT_ADMIN_BY_ID)) {
 
@@ -60,19 +48,14 @@ public class AdminDaoImpl implements AdminDaoInterface {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.err.println("Fetch Error: " + e.getMessage());
         }
         return null;
     }
 
-    /**
-     * Gets the admin by email.
-     *
-     * @param email the email address
-     * @return the admin object if found, null otherwise
-     */
     @Override
     public Admin getAdminByEmail(String email) {
+        // Search for an admin using their email address
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(SQLConstants.SELECT_ADMIN_BY_EMAIL)) {
 
@@ -83,18 +66,14 @@ public class AdminDaoImpl implements AdminDaoInterface {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.err.println("Search Error: " + e.getMessage());
         }
         return null;
     }
 
-    /**
-     * Gets all admins from the database.
-     *
-     * @return the list of all admins
-     */
     @Override
     public List<Admin> getAllAdmins() {
+        // Retrieve a full list of all administrators in the system
         List<Admin> admins = new ArrayList<>();
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(SQLConstants.SELECT_ALL_ADMINS);
@@ -104,19 +83,12 @@ public class AdminDaoImpl implements AdminDaoInterface {
                 admins.add(mapResultSetToAdmin(rs));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.err.println("List Error: " + e.getMessage());
         }
         return admins;
     }
 
-    /**
-     * Map result set to admin.
-     * Helper method to convert database result set to Admin bean.
-     *
-     * @param rs the result set from database query
-     * @return the admin object
-     * @throws SQLException the SQL exception
-     */
+    // Helper method to convert a database row into an Admin Java object
     private Admin mapResultSetToAdmin(ResultSet rs) throws SQLException {
         Admin admin = new Admin();
         admin.setAdminId(rs.getString("adminId"));
